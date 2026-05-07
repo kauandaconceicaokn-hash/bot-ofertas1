@@ -24,3 +24,8 @@ app.listen(PORT, () => {
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: false });
 
 bot.sendMessage(process.env.CHAT_ID, 'Bot online e funcionando ✔️');
+setTimeout(() => {
+  console.log("Enviando teste Telegram...");
+
+  bot.sendMessage(process.env.CHAT_ID, "Teste funcionando ✔️");
+}, 8000);

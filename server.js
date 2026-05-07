@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -17,6 +15,12 @@ app.get('/', (req, res) => {
   res.send('API rodando ✔️');
 });
 
-app.listen(3000, () => {
-  console.log('Servidor rodando');
-});
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log('Servidor rodando na porta ' + PORT);
+});const TelegramBot = require('node-telegram-bot-api');
+
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: false });
+
+bot.sendMessage(process.env.CHAT_ID, 'Bot online e funcionando ✔️');

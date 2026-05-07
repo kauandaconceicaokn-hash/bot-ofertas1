@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -29,3 +30,27 @@ setTimeout(() => {
 
   bot.sendMessage(process.env.CHAT_ID, "Teste funcionando ✔️");
 }, 8000);
+const axios = require('axios');
+
+async function buscarOfertas() {
+  const url = "https://api.mercadolibre.com/sites/MLB/search?q=fone%20bluetooth";
+
+  const res = await axios.get(url);
+
+  return res.data.results.slice(0, 3);
+}async function enviarOfertas() {
+  const produtos = await buscarOfertas();
+
+  produtos.forEach(p => {
+    const mensagem =
+      `🔥 OFERTA:\n` +
+      `${p.title}\n` +
+      `💰 R$ ${p.price}\n` +
+      `${p.permalink}`;
+
+    bot.sendMessage(process.env.CHAT_ID, mensagem);
+  });
+}setInterval(() => {
+  console.log("Buscando ofertas...");
+  enviarOfertas();
+}, 1000 * 60 * 30); // a cada 30 minutos
